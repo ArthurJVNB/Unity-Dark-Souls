@@ -45,7 +45,7 @@ namespace DK
             movementDirection.Normalize();
             movementDirection *= movementSpeed;
 
-            Vector3 projectedVelocity = Vector3.ProjectOnPlane(movementDirection, normalVector);
+            Vector3 projectedVelocity = Vector3.ProjectOnPlane(movementDirection, Vector3.up);
             rigidbody.velocity = projectedVelocity;
 
             animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0);
@@ -55,7 +55,7 @@ namespace DK
         }
 
         #region Movement
-        Vector3 normalVector;
+        Vector3 normalVector = Vector3.up;
         Vector3 targetPosition;
 
         private void HandleRotation(float delta)
@@ -65,8 +65,8 @@ namespace DK
             Vector3 targetDirection;
             targetDirection = cameraObject.forward * inputHandler.vertical;
             targetDirection += cameraObject.right * inputHandler.horizontal;
-            targetDirection.Normalize();
             targetDirection.y = 0;
+            targetDirection.Normalize();
 
             if (targetDirection == Vector3.zero)
                 targetDirection = myTransform.forward;

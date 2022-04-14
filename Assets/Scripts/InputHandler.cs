@@ -13,9 +13,15 @@ namespace DK
         public float mouseY;
 
         PlayerControls inputActions;
+        CameraHandler cameraHandler;
 
         Vector2 movementInput;
         Vector2 cameraInput;
+
+        private void Awake()
+        {
+            cameraHandler = CameraHandler.Instance;
+        }
 
         private void OnEnable()
         {
@@ -32,6 +38,15 @@ namespace DK
         private void OnDisable()
         {
             inputActions.Disable();
+        }
+
+        private void FixedUpdate()
+        {
+            if (cameraHandler)
+            {
+                cameraHandler.FollowTarget(Time.fixedDeltaTime);
+                cameraHandler.HandleCameraRotation(Time.fixedDeltaTime, mouseX, mouseY);
+            }
         }
 
         public void UpdateInput(float delta)
